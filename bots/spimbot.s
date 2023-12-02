@@ -45,6 +45,7 @@ MMIO_STATUS             = 0xffff204c
 .data
 ### Puzzle
 board:     .space 512
+puzzle_received:   .byte 0
 #### Puzzle
 
 has_puzzle: .word 0
@@ -72,10 +73,150 @@ main:
     sw $t2, VELOCITY
 
     # YOUR CODE GOES HERE!!!!!!
+    li $t8 0
+    looppuzzle:
+        bge $t8 4 donelooppuzzle # solve 4 puzzles
+        
+        la $t3, puzzle_received
+        sb $zero, 0($t3) # puzzle_received = 0
+    
+        la $t4, board
+        la $t8, REQUEST_PUZZLE
+
+        sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
+
+        li $t6, 0 # iterations = 0
+        
+        whileloop:
+            lb $t5 0($t3) # $t5 = puzzle_received
+            bne $t5, 0, puzzlereceived # while not puzzle_received
+            addi $t6, 1 # iterations++
+            j whileloop
+            
+
+        puzzlereceived:
+            la $t3, board
+            move $a0 $t3
+
+            jal quant_solve
+
+            la $t3, board
+            la $t5 SUBMIT_SOLUTION
+            sw $t3, 0($t5)
+
+        addi $t8 $t8 1
+        j looppuzzle
+    
+    donelooppuzzle:
+        
+
+
+
+    li $t1, 0x00040000
+    sw $t1, POWERWASH_ON
+
+    li $a0 25
+    jal move_north
 
 
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
     j loop
+
+
+move_east:
+    li $t1, 0
+    sw $t1, ANGLE
+    li $t1, 1
+    sw $t1, ANGLE_CONTROL
+
+    li $t2, 5
+    sw $t2, VELOCITY
+
+    li $t0, 0
+
+    mul $t1 $a0 1800
+    loopeast:
+        bge $t0, $t1, doneeast
+        addi $t0, 1
+        j loopeast
+
+    doneeast:
+
+    li $t2, 0
+    sw $t2, VELOCITY
+
+    jr $ra
+
+move_north:
+    li $t1, 270
+    sw $t1, ANGLE
+    li $t1, 1
+    sw $t1, ANGLE_CONTROL
+
+    li $t2, 5
+    sw $t2, VELOCITY
+
+    li $t0, 0
+    mul $t1 $a0 1800
+    loopnorth:
+        bge $t0, $t1, donenorth
+        addi $t0, 1
+        j loopnorth
+
+    donenorth:
+
+    li $t2, 0
+    sw $t2, VELOCITY
+
+    jr $ra
+
+move_south:
+    li $t1, 90
+    sw $t1, ANGLE
+    li $t1, 1
+    sw $t1, ANGLE_CONTROL
+
+    li $t2, 5
+    sw $t2, VELOCITY
+
+    li $t0, 0
+    mul $t1 $a0 1800
+    loopsouth:
+        bge $t0, $t1, donesouth
+        addi $t0, 1
+        j loopsouth
+
+    donesouth:
+
+    li $t2, 0
+    sw $t2, VELOCITY
+
+    jr $ra
+
+move_west:
+    li $t1, 180
+    sw $t1, ANGLE
+    li $t1, 1
+    sw $t1, ANGLE_CONTROL
+
+    li $t2, 5
+    sw $t2, VELOCITY
+
+    li $t0, 0
+    mul $t1 $a0 1800
+    loopwest:
+        bge $t0, $t1, donewest
+        addi $t0, 1
+        j loopwest
+
+    donewest:
+
+    li $t2, 0
+    sw $t2, VELOCITY
+
+    jr $ra
+
+
 
 .kdata
 chunkIH:    .space 40
@@ -150,7 +291,15 @@ timer_interrupt:
 
 request_puzzle_interrupt:
     sw      $0, REQUEST_PUZZLE_ACK
-    #Fill in your puzzle interrupt code here
+    la      $t0, has_puzzle
+    li      $t1, 1
+    sw      $t1, 0($t0)
+
+    la $t3, puzzle_received
+    li $t4, 1
+    
+    sb $t4, 0($t3) # puzzle_received = 1
+  
     j       interrupt_dispatch
 
 falling_interrupt:
