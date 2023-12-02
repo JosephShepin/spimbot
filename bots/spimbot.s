@@ -108,15 +108,62 @@ main:
         j looppuzzle
     
     donelooppuzzle:
+
+
         
-
-
 
     li $t1, 0x00040000
     sw $t1, POWERWASH_ON
 
-    li $a0 25
+    li $a0 35
     jal move_north
+
+
+    li $t8 0
+    looppuzzlel:
+        bge $t8 4 donelooppuzzlel # solve 4 puzzles
+        
+        la $t3, puzzle_received
+        sb $zero, 0($t3) # puzzle_received = 0
+    
+        la $t4, board
+        la $t8, REQUEST_PUZZLE
+
+        sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
+
+        li $t6, 0 # iterations = 0
+        
+        whileloopl:
+            lb $t5 0($t3) # $t5 = puzzle_received
+            bne $t5, 0, puzzlereceivedl # while not puzzle_received
+            addi $t6, 1 # iterations++
+            j whileloopl
+            
+
+        puzzlereceivedl:
+            la $t3, board
+            move $a0 $t3
+
+            jal quant_solve
+
+            la $t3, board
+            la $t5 SUBMIT_SOLUTION
+            sw $t3, 0($t5)
+
+        addi $t8 $t8 1
+        j looppuzzlel
+    
+    donelooppuzzlel:
+        
+
+    
+    li $t1, 0x00040000
+    sw $t1, POWERWASH_ON
+
+
+    li $a0 35
+    jal move_east
+
 
 
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
