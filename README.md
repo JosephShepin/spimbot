@@ -1,3 +1,3 @@
 # Spimbot
 
-```QtSpimbot -bot0 spimbot.s -mapseed X -puzzleseed X -qual```
+```QtSpimbot -bot0 bots/spimbot.s -mapseed X -puzzleseed X -qual```
