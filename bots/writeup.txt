@@ -1,1 +1,21 @@
-<Explain your team's strategy, implementation, etc.>
+The approach we took first began by analyzing the map to see what our best course
+of action would be. The way we did this by trying various different seed combinations
+in order to see what patterns are emerging with the different seed combinations. In order
+to better see how the maps differed we took screenshots of the maps generated and began to see a pattern.
+The pattern we noticed was that the floor, and the vertical beams remained the same no matter seed we chose.
+In addition we noticed that when we changed the seeds the only thing that changed was the horizontal beams.
+In addition, we noticed that the although it says the starting position might change, we didn't notice any 
+change from where the bot started when we tried countless of seeds. Therefore, we designed a strategy that 
+used the patterns we found in mind.
+
+The apporach we began with was by writing a map generalized modelthat goes through the vertical beams and the floor.
+Following this approach we clean the sufficient amount of tiles and several windows. They we went about
+implementing this model was by creating helper functions that performed one action. For instance we had a move south
+function that moved the bot south by a given amount. Given that we had a generalized approached working be began to 
+optimize our code to account for more randmoness that we could not get from the seeds we chose to generate. We began by
+attempting to add interrupt handlers for various actions. Unfortunatly we weren't able to inocorperate the interrupt handlers in 
+our generalized model so we did not inocorperate them into our final submission.
+
+Overall, we worked on this lab as a team to come up with our best approach that we think should qualify. We are pretty satisfied with our
+map generalized model that we came up with because of the vast amount of research we did from creating various maps and seeds so that we could find
+patterns with the map generation.
