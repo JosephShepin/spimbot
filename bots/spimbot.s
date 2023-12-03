@@ -73,136 +73,126 @@ main:
     sw $t2, VELOCITY
 
     # # YOUR CODE GOES HERE!!!!!!
-    # li $t8 0
-    # looppuzzle:
-    #     bge $t8 4 donelooppuzzle # solve 4 puzzles
-        
-    #     la $t3, puzzle_received
-    #     sb $zero, 0($t3) # puzzle_received = 0
-    
-    #     la $t4, board
-    #     la $t8, REQUEST_PUZZLE
-
-    #     sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
-
-    #     li $t6, 0 # iterations = 0
-        
-    #     whileloop:
-    #         lb $t5 0($t3) # $t5 = puzzle_received
-    #         bne $t5, 0, puzzlereceived # while not puzzle_received
-    #         addi $t6, 1 # iterations++
-    #         j whileloop
-            
-
-    #     puzzlereceived:
-    #         la $t3, board
-    #         move $a0 $t3
-
-    #         jal quant_solve
-
-    #         la $t3, board
-    #         la $t5 SUBMIT_SOLUTION
-    #         sw $t3, 0($t5)
-
-    #     addi $t8 $t8 1
-    #     j looppuzzle
-    
-    # donelooppuzzle:
-
-
-    # jal move_north
-
-
-    # li $t1, 0x00040000
-    # sw $t1, POWERWASH_ON
-
-    # li $a0 35
-
-    # jal move_north
-
-
-    # li $t8 0
-    # looppuzzlel:
-    #     bge $t8 4 donelooppuzzlel # solve 4 puzzles
-        
-    #     la $t3, puzzle_received
-    #     sb $zero, 0($t3) # puzzle_received = 0
-    
-    #     la $t4, board
-    #     la $t8, REQUEST_PUZZLE
-
-    #     sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
-
-    #     li $t6, 0 # iterations = 0
-        
-    #     whileloopl:
-    #         lb $t5 0($t3) # $t5 = puzzle_received
-    #         bne $t5, 0, puzzlereceivedl # while not puzzle_received
-    #         addi $t6, 1 # iterations++
-    #         j whileloopl
-            
-
-    #     puzzlereceivedl:
-    #         la $t3, board
-    #         move $a0 $t3
-
-    #         jal quant_solve
-
-    #         la $t3, board
-    #         la $t5 SUBMIT_SOLUTION
-    #         sw $t3, 0($t5)
-
-    #     addi $t8 $t8 1
-    #     j looppuzzlel
-    
-    # donelooppuzzlel:
-        
     jal get_water
-
-    
     jal quant_solve
+    jal done_get_water
 
-    la $t3, board
-    la $t5 SUBMIT_SOLUTION
-    sw $t3, 0($t5)
+    li $a0 44
+    jal move_north
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 50
+    jal move_east
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 50
+    jal move_south
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 28
+    jal move_east
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 50
+    jal move_north
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 32
+    jal move_east
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 25
+    jal move_north
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 25
+    jal move_north
+
     
+    jal get_water
+    jal quant_solve
+    jal done_get_water
 
-
-    
-    li $t1, 0x00040000
-    sw $t1, POWERWASH_ON
-
-
-    li $a0 35
-
+    li $a0 25
     jal move_north
 
 
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
 
-    jal get_water
-
-    
-    jal quant_solve
-
-    la $t3, board
-    la $t5 SUBMIT_SOLUTION
-    sw $t3, 0($t5)
-    
-
-    li $t1, 0x00040000
-    sw $t1, POWERWASH_ON
+    # li $a0 25
+    # jal move_north
 
 
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
 
 
-    li $a0 35
-    jal move_east
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
+
+
+
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
+
+
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
+
+
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
+
+
+    # jal get_water
+    # jal quant_solve
+    # jal done_get_water
+
 
 
 
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
     j loop
 
+
+done_get_water:
+    la $t3, board
+    la $t5 SUBMIT_SOLUTION
+    sw $t3, 0($t5)
+    li $t1, 0x00040000
+    sw $t1, POWERWASH_ON
+    jr $ra
 
 get_water:
     la $t3, puzzle_received
@@ -235,7 +225,7 @@ move_east:
     li $t1, 1
     sw $t1, ANGLE_CONTROL
 
-    li $t2, 5
+    li $t2, 3
     sw $t2, VELOCITY
 
     li $t0, 0
@@ -259,7 +249,7 @@ move_north:
     li $t1, 1
     sw $t1, ANGLE_CONTROL
 
-    li $t2, 5
+    li $t2, 3
     sw $t2, VELOCITY
 
     li $t0, 0
@@ -282,7 +272,7 @@ move_south:
     li $t1, 1
     sw $t1, ANGLE_CONTROL
 
-    li $t2, 5
+    li $t2, 3
     sw $t2, VELOCITY
 
     li $t0, 0
@@ -305,7 +295,7 @@ move_west:
     li $t1, 1
     sw $t1, ANGLE_CONTROL
 
-    li $t2, 5
+    li $t2, 3
     sw $t2, VELOCITY
 
     li $t0, 0
