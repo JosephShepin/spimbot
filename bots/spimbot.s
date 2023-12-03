@@ -87,9 +87,45 @@ main:
     jal quant_solve
     jal done_get_water
 
-    li $a0 50
+    li $a0 20
     jal move_east
 
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 35
+    jal move_north
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 35
+    jal move_north
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 35
+    jal move_south
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 35
+    jal move_south
+
+    jal get_water
+    jal quant_solve
+    jal done_get_water
+
+    li $a0 31
+    jal move_east
+
+    
     jal get_water
     jal quant_solve
     jal done_get_water
@@ -131,7 +167,6 @@ main:
 
     li $a0 25
     jal move_north
-
     
     jal get_water
     jal quant_solve
@@ -140,47 +175,19 @@ main:
     li $a0 25
     jal move_north
 
+    jal get_water
+    jal quant_solve
+    jal done_get_water
 
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
+    li $a0 25
+    jal move_south
 
-    # li $a0 25
-    # jal move_north
+    jal get_water
+    jal quant_solve
+    jal done_get_water
 
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-    # jal get_water
-    # jal quant_solve
-    # jal done_get_water
-
-
-
+    li $a0 25
+    jal move_south
 
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
     j loop
