@@ -72,93 +72,127 @@ main:
     li $t2, 0
     sw $t2, VELOCITY
 
-    # YOUR CODE GOES HERE!!!!!!
-    li $t8 0
-    looppuzzle:
-        bge $t8 4 donelooppuzzle # solve 4 puzzles
+    # # YOUR CODE GOES HERE!!!!!!
+    # li $t8 0
+    # looppuzzle:
+    #     bge $t8 4 donelooppuzzle # solve 4 puzzles
         
-        la $t3, puzzle_received
-        sb $zero, 0($t3) # puzzle_received = 0
+    #     la $t3, puzzle_received
+    #     sb $zero, 0($t3) # puzzle_received = 0
     
-        la $t4, board
-        la $t8, REQUEST_PUZZLE
+    #     la $t4, board
+    #     la $t8, REQUEST_PUZZLE
 
-        sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
+    #     sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
 
-        li $t6, 0 # iterations = 0
+    #     li $t6, 0 # iterations = 0
         
-        whileloop:
-            lb $t5 0($t3) # $t5 = puzzle_received
-            bne $t5, 0, puzzlereceived # while not puzzle_received
-            addi $t6, 1 # iterations++
-            j whileloop
+    #     whileloop:
+    #         lb $t5 0($t3) # $t5 = puzzle_received
+    #         bne $t5, 0, puzzlereceived # while not puzzle_received
+    #         addi $t6, 1 # iterations++
+    #         j whileloop
             
 
-        puzzlereceived:
-            la $t3, board
-            move $a0 $t3
+    #     puzzlereceived:
+    #         la $t3, board
+    #         move $a0 $t3
 
-            jal quant_solve
+    #         jal quant_solve
 
-            la $t3, board
-            la $t5 SUBMIT_SOLUTION
-            sw $t3, 0($t5)
+    #         la $t3, board
+    #         la $t5 SUBMIT_SOLUTION
+    #         sw $t3, 0($t5)
 
-        addi $t8 $t8 1
-        j looppuzzle
+    #     addi $t8 $t8 1
+    #     j looppuzzle
     
-    donelooppuzzle:
+    # donelooppuzzle:
 
 
+    # jal move_north
+
+
+    # li $t1, 0x00040000
+    # sw $t1, POWERWASH_ON
+
+    # li $a0 35
+
+    # jal move_north
+
+
+    # li $t8 0
+    # looppuzzlel:
+    #     bge $t8 4 donelooppuzzlel # solve 4 puzzles
         
+    #     la $t3, puzzle_received
+    #     sb $zero, 0($t3) # puzzle_received = 0
+    
+    #     la $t4, board
+    #     la $t8, REQUEST_PUZZLE
 
+    #     sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
+
+    #     li $t6, 0 # iterations = 0
+        
+    #     whileloopl:
+    #         lb $t5 0($t3) # $t5 = puzzle_received
+    #         bne $t5, 0, puzzlereceivedl # while not puzzle_received
+    #         addi $t6, 1 # iterations++
+    #         j whileloopl
+            
+
+    #     puzzlereceivedl:
+    #         la $t3, board
+    #         move $a0 $t3
+
+    #         jal quant_solve
+
+    #         la $t3, board
+    #         la $t5 SUBMIT_SOLUTION
+    #         sw $t3, 0($t5)
+
+    #     addi $t8 $t8 1
+    #     j looppuzzlel
+    
+    # donelooppuzzlel:
+        
+    jal get_water
+
+    
+    jal quant_solve
+
+    la $t3, board
+    la $t5 SUBMIT_SOLUTION
+    sw $t3, 0($t5)
+    
+
+
+    
     li $t1, 0x00040000
     sw $t1, POWERWASH_ON
 
+
     li $a0 35
+
     jal move_north
 
 
-    li $t8 0
-    looppuzzlel:
-        bge $t8 4 donelooppuzzlel # solve 4 puzzles
-        
-        la $t3, puzzle_received
-        sb $zero, 0($t3) # puzzle_received = 0
-    
-        la $t4, board
-        la $t8, REQUEST_PUZZLE
 
-        sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
-
-        li $t6, 0 # iterations = 0
-        
-        whileloopl:
-            lb $t5 0($t3) # $t5 = puzzle_received
-            bne $t5, 0, puzzlereceivedl # while not puzzle_received
-            addi $t6, 1 # iterations++
-            j whileloopl
-            
-
-        puzzlereceivedl:
-            la $t3, board
-            move $a0 $t3
-
-            jal quant_solve
-
-            la $t3, board
-            la $t5 SUBMIT_SOLUTION
-            sw $t3, 0($t5)
-
-        addi $t8 $t8 1
-        j looppuzzlel
-    
-    donelooppuzzlel:
-        
+    jal get_water
 
     
+    jal quant_solve
+
+    la $t3, board
+    la $t5 SUBMIT_SOLUTION
+    sw $t3, 0($t5)
+    
+
     li $t1, 0x00040000
     sw $t1, POWERWASH_ON
+
+
 
 
     li $a0 35
@@ -168,6 +202,31 @@ main:
 
 loop: # Once done, enter an infinite loop so that your bot can be graded by QtSpimbot once 10,000,000 cycles have elapsed
     j loop
+
+
+get_water:
+    la $t3, puzzle_received
+    sb $zero, 0($t3) # puzzle_received = 0
+
+    la $t4, board
+    la $t8, REQUEST_PUZZLE
+
+    sw $t4, 0($t8) # *REQUEST_PUZZLE = &board;
+
+    li $t6, 0 # iterations = 0
+    
+    whileloopl:
+        lb $t5 0($t3) # $t5 = puzzle_received
+        bne $t5, 0, puzzlereceivedl # while not puzzle_received
+        addi $t6, 1 # iterations++
+        j whileloopl
+        
+
+    puzzlereceivedl:
+        la $t3, board
+        move $a0 $t3
+
+    jr $ra
 
 
 move_east:
